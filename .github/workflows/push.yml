@@ -2,8 +2,6 @@ name: Push
 
 on:
   push:
-    branches:
-      - master
     tags:
       - "*.*.*"
   workflow_dispatch:
@@ -25,48 +23,45 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Prepare Tag
-        id: tag
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        run: |
-          VERSION="${GITHUB_REF##refs/tags/}"
-          echo "Found Tag: ${VERSION}"
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-        shell: bash
+      # - name: Prepare Tag
+      #   id: tag
+      #   if: ${{ startsWith(github.ref, 'refs/tags/') }}
+      #   run: |
+      #     VERSION="${GITHUB_REF##refs/tags/}"
+      #     echo "Found Tag: ${VERSION}"
+      #     echo "version=${VERSION}" >> $GITHUB_OUTPUT
+      #   shell: bash
 
       - name: Setup QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Setup Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
-          username: catlair
-          password: ${{ secrets.DOCKER_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: catlair
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push Auto-Tagging Tags
-        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
-        env:
-          BUILD_DOCKER_BUILDER: ${{ steps.buildx.outputs.name }}
-        run: |
-          ./build.sh push
-        shell: bash
-
-      - name: Push Git Tags
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        env:
-          BUILD_DOCKER_BUILDER: ${{ steps.buildx.outputs.name }}
-          BUILD_TAG: ${{ steps.tag.outputs.version }}
-        run: |
-          ./build.sh push
-        shell: bash
+      - name: Build and Push
+        id: docker_build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64
+          build-args: |
+            BUILD_ARCH=amd64
+            BUILD_QQNT_LINK=https://dldir1.qq.com/qqfile/qq/QQNT/fd2e886e/linuxqq_3.2.2-18394
+          tags: |
+            catlair/qqnt:latest
+            ghcr.io/catlair/qqnt:latest
