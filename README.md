@@ -2,22 +2,22 @@
 
 在 Docker 中运行 QQNT 官方客户端
 
-[GitHub](https://github.com/ilharp/docker-qqnt)
+[GitHub](https://github.com/catlair/docker-qqnt)
 |
-[GitHub Container Registry](https://github.com/ilharp/docker-qqnt/pkgs/container/docker-qqnt)
+[GitHub Container Registry](https://github.com/catlair/docker-qqnt/pkgs/container/docker-qqnt)
 |
-[Docker Hub](https://hub.docker.com/r/ilharp/qqnt)
+[Docker Hub](https://hub.docker.com/r/catlair/qqnt)
 
 ## 使用
 
 ### 在线尝试
 
-<a href="https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/ilharp/docker-qqnt/master/docker-compose.yml" target="_blank"><img src="https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png" alt="Try in PWD" height="37"/></a>
+<a href="https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/catlair/docker-qqnt/master/docker-compose.yml" target="_blank"><img src="https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png" alt="Try in PWD" height="37"/></a>
 
 ### 使用 Docker
 
 ```sh
-docker run --rm -it --security-opt seccomp=unconfined -p 6080:80 -p 5901 -e VNC_PASSWD=password ilharp/qqnt
+docker run --rm -it --security-opt seccomp=unconfined -p 6080:80 -p 5901 -e VNC_PASSWD=password catlair/qqnt
 ```
 
 ### 使用 Docker Compose
@@ -47,13 +47,13 @@ vncviewer :1 # 会连接到 127.0.0.1:5901
 进入容器（启动服务）：
 
 ```sh
-docker run --rm -it -p 6080:80 -p 5901 -e VNC_PASSWD=password ilharp/qqnt /sbin/my_init -- bash -l
+docker run --rm -it -p 6080:80 -p 5901 -e VNC_PASSWD=password catlair/qqnt /sbin/my_init -- bash -l
 ```
 
 进入容器（不启动任何服务）：
 
 ```sh
-docker run --rm -it -p 6080:80 -p 5901 -e VNC_PASSWD=password ilharp/qqnt bash
+docker run --rm -it -p 6080:80 -p 5901 -e VNC_PASSWD=password catlair/qqnt bash
 ```
 
 ## 配方
@@ -83,4 +83,4 @@ BUILD_DOCKER_BUILDER=container ./build.sh
 
 ## 许可
 
-[MIT](https://github.com/ilharp/docker-qqnt/blob/master/LICENSE)
+[MIT](https://github.com/catlair/docker-qqnt/blob/master/LICENSE)

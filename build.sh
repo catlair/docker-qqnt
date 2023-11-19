@@ -8,7 +8,7 @@ BUILD_AUTO_TAG=$(git rev-parse --abbrev-ref HEAD)-$(git rev-list --count HEAD)
 BUILD_TAG=${BUILD_TAG:-${BUILD_AUTO_TAG}}
 BUILD_DOCKER_BUILDER=${BUILD_DOCKER_BUILDER:-container}
 
-echo "Building ilharp/qqnt:${BUILD_TAG} using builder: ${BUILD_DOCKER_BUILDER}\n\n"
+echo "Building catlair/qqnt:${BUILD_TAG} using builder: ${BUILD_DOCKER_BUILDER}\n\n"
 
 BUILD_ARCH_LIST=(
   amd64
@@ -37,8 +37,8 @@ do
           --build-arg BUILD_QQNT_LINK=${BUILD_QQNT_LINK} \
           --build-arg BUILD_ARCH=${BUILD_ARCH} \
           --platform ${BUILD_PLATFORM} \
-          -t ghcr.io/ilharp/docker-qqnt:${BUILD_IMAGE_ARCH_TAG} \
-          -t ilharp/qqnt:${BUILD_IMAGE_ARCH_TAG} \
+          -t ghcr.io/catlair/docker-qqnt:${BUILD_IMAGE_ARCH_TAG} \
+          -t catlair/qqnt:${BUILD_IMAGE_ARCH_TAG} \
           .
         ;;
       *)
@@ -47,8 +47,8 @@ do
           --build-arg BUILD_QQNT_LINK=${BUILD_QQNT_LINK} \
           --build-arg BUILD_ARCH=${BUILD_ARCH} \
           --platform ${BUILD_PLATFORM} \
-          -t ghcr.io/ilharp/docker-qqnt:${BUILD_IMAGE_ARCH_TAG} \
-          -t ilharp/qqnt:${BUILD_IMAGE_ARCH_TAG} \
+          -t ghcr.io/catlair/docker-qqnt:${BUILD_IMAGE_ARCH_TAG} \
+          -t catlair/qqnt:${BUILD_IMAGE_ARCH_TAG} \
           .
         ;;
     esac
@@ -61,30 +61,30 @@ do
   #     # Wait for manifest update
   #     sleep 60
 
-  #     BUILD_MANIFEST_AMD64_DIGEST=$(docker buildx imagetools inspect --raw ilharp/qqnt:${BUILD_TAG}-linux-amd64-up${BUILD_QQNT_VERSION} | jq --raw-output '.manifests | map(select(.platform.architecture == "amd64")) | .[0].digest')
-  #     BUILD_MANIFEST_ARM64_DIGEST=$(docker buildx imagetools inspect --raw ilharp/qqnt:${BUILD_TAG}-linux-arm64-up${BUILD_QQNT_VERSION} | jq --raw-output '.manifests | map(select(.platform.architecture == "arm64")) | .[0].digest')
+  #     BUILD_MANIFEST_AMD64_DIGEST=$(docker buildx imagetools inspect --raw catlair/qqnt:${BUILD_TAG}-linux-amd64-up${BUILD_QQNT_VERSION} | jq --raw-output '.manifests | map(select(.platform.architecture == "amd64")) | .[0].digest')
+  #     BUILD_MANIFEST_ARM64_DIGEST=$(docker buildx imagetools inspect --raw catlair/qqnt:${BUILD_TAG}-linux-arm64-up${BUILD_QQNT_VERSION} | jq --raw-output '.manifests | map(select(.platform.architecture == "arm64")) | .[0].digest')
 
-  #     docker manifest create ghcr.io/ilharp/docker-qqnt:${BUILD_TAG}-linux-up${BUILD_QQNT_VERSION} \
-  #       ghcr.io/ilharp/docker-qqnt@${BUILD_MANIFEST_AMD64_DIGEST} \
-  #       ghcr.io/ilharp/docker-qqnt@${BUILD_MANIFEST_ARM64_DIGEST}
-  #     docker manifest push ghcr.io/ilharp/docker-qqnt:${BUILD_TAG}-linux-up${BUILD_QQNT_VERSION}
+  #     docker manifest create ghcr.io/catlair/docker-qqnt:${BUILD_TAG}-linux-up${BUILD_QQNT_VERSION} \
+  #       ghcr.io/catlair/docker-qqnt@${BUILD_MANIFEST_AMD64_DIGEST} \
+  #       ghcr.io/catlair/docker-qqnt@${BUILD_MANIFEST_ARM64_DIGEST}
+  #     docker manifest push ghcr.io/catlair/docker-qqnt:${BUILD_TAG}-linux-up${BUILD_QQNT_VERSION}
 
-  #     docker manifest create ilharp/qqnt:${BUILD_TAG}-linux-up${BUILD_QQNT_VERSION} \
-  #       ilharp/qqnt@${BUILD_MANIFEST_AMD64_DIGEST} \
-  #       ilharp/qqnt@${BUILD_MANIFEST_ARM64_DIGEST}
-  #     docker manifest push ilharp/qqnt:${BUILD_TAG}-linux-up${BUILD_QQNT_VERSION}
+  #     docker manifest create catlair/qqnt:${BUILD_TAG}-linux-up${BUILD_QQNT_VERSION} \
+  #       catlair/qqnt@${BUILD_MANIFEST_AMD64_DIGEST} \
+  #       catlair/qqnt@${BUILD_MANIFEST_ARM64_DIGEST}
+  #     docker manifest push catlair/qqnt:${BUILD_TAG}-linux-up${BUILD_QQNT_VERSION}
 
   #     if [ "$BUILD_TAG" != "$BUILD_AUTO_TAG" -a $BUILD_QQNT_VERSION = $BUILD_QQNT_DATA_VERSION_LATEST ]
   #     then
-  #       docker manifest create ghcr.io/ilharp/docker-qqnt:latest \
-  #         ghcr.io/ilharp/docker-qqnt@${BUILD_MANIFEST_AMD64_DIGEST} \
-  #         ghcr.io/ilharp/docker-qqnt@${BUILD_MANIFEST_ARM64_DIGEST}
-  #       docker manifest push ghcr.io/ilharp/docker-qqnt:latest
+  #       docker manifest create ghcr.io/catlair/docker-qqnt:latest \
+  #         ghcr.io/catlair/docker-qqnt@${BUILD_MANIFEST_AMD64_DIGEST} \
+  #         ghcr.io/catlair/docker-qqnt@${BUILD_MANIFEST_ARM64_DIGEST}
+  #       docker manifest push ghcr.io/catlair/docker-qqnt:latest
 
-  #       docker manifest create ilharp/qqnt:latest \
-  #         ilharp/qqnt@${BUILD_MANIFEST_AMD64_DIGEST} \
-  #         ilharp/qqnt@${BUILD_MANIFEST_ARM64_DIGEST}
-  #       docker manifest push ilharp/qqnt:latest
+  #       docker manifest create catlair/qqnt:latest \
+  #         catlair/qqnt@${BUILD_MANIFEST_AMD64_DIGEST} \
+  #         catlair/qqnt@${BUILD_MANIFEST_ARM64_DIGEST}
+  #       docker manifest push catlair/qqnt:latest
   #     fi
   #     ;;
   #   *)
