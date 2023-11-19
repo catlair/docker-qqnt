@@ -7,7 +7,9 @@ ARG BUILD_ARCH
 
 COPY --chmod=0755 rootfs /
 
-RUN apt update && \
+RUN useradd catlair && \
+  chown -R catlair:catlair /var/www && \
+  apt update && \
   \
   # Install packages
   apt install -y fonts-noto-cjk wget && \
@@ -24,3 +26,5 @@ RUN apt update && \
   /var/lib/apt/lists/* \
   /tmp/* \
   /var/tmp/*
+
+USER catlair

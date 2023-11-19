@@ -2,8 +2,8 @@ name: Push
 
 on:
   push:
-    tags:
-      - "*.*.*"
+    # tags:
+    #   - "*.*.*"
   workflow_dispatch:
 
 jobs:
