@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build
+  push:
+    name: Push
 
     runs-on: ubuntu-latest
 
@@ -22,16 +22,21 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
 
-      - name: Set up Docker Buildx
+      - name: Setup Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
-      - name: Build
-        env:
-          BUILD_DOCKER_BUILDER: ${{ steps.buildx.outputs.name }}
-        run: |
-          ./build.sh
-        shell: bash
+      - name: Build and Push
+        id: docker_build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          platforms: linux/amd64
+          build-args: |
+            BUILD_ARCH=amd64
+            BUILD_QQNT_LINK=https://dldir1.qq.com/qqfile/qq/QQNT/fd2e886e/linuxqq_3.2.2-18394
+          tags: catlair/bilioutils:latest
